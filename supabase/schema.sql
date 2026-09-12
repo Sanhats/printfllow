@@ -38,3 +38,14 @@ create table if not exists public.activity_logs (
 );
 create index if not exists activity_logs_created_idx on public.activity_logs(created_at desc);
 alter table public.activity_logs enable row level security;
+
+create table if not exists public.agent_printers (
+  id text primary key,
+  name text not null,
+  status text,
+  offline boolean not null default false,
+  driver text,
+  port text,
+  last_seen timestamptz not null default now()
+);
+alter table public.agent_printers enable row level security;
