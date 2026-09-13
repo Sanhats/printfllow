@@ -13,6 +13,13 @@ create table if not exists public.print_jobs (
 
 create index if not exists print_jobs_status_created_idx on public.print_jobs(status, created_at desc);
 
+alter table public.print_jobs add column if not exists printer_name text;
+alter table public.print_jobs add column if not exists windows_job_id integer;
+alter table public.print_jobs add column if not exists attempts integer not null default 0;
+alter table public.print_jobs add column if not exists claimed_by text;
+alter table public.print_jobs add column if not exists last_error text;
+create index if not exists print_jobs_printer_status_idx on public.print_jobs(printer_name,status,created_at);
+
 -- Para el MVP personal, el backend usa la service role key y no expone esta tabla al navegador.
 alter table public.print_jobs enable row level security;
 
